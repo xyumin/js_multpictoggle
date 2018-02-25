@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>多组图片切换</title>
+	<style type="text/css">
+		body,div,p,input,img {
+			margin:0;
+			padding:0;
+		}
+		img {
+			border:none;
+		}
+		input {
+			border:none;
+			outline: none;
+		}
+		body {
+			font-size: 14px;
+			font-family: "微软雅黑";
+		}
+		.wrap {
+			width:1007px;
+			height:653px;
+			margin:0 auto;
+			background: url("img/bg.jpg");
+		}
+		.btn input {
+				width:100px;
+				height:30px;
+				line-height: 30px;
+				border-radius:10px;
+				margin:50px 10px 0 30px;
+				cursor: pointer;
+		}
+		
+		#left {
+			border:20px solid #fff;
+			margin-left: 20px;
+			margin-top: 10px;	
+		}
+		#left img {
+			width:500px;
+			height:400px;
+			display: block;
+		}
+		#right {
+			margin-left: 30px;
+			margin-top:30px;
+			border:15px solid #fff;
+		}
+		#right img {
+			width:350px;
+			height:250px;
+			display: block;
+		}
+		#left ,#right {
+			float:left;
+			border-bottom-width: 80px;
+			position: relative;
+		}
+		#go_prev1 ,#go_prev2 {
+			position: absolute;
+			left:0;
+			top:0;
+		}
+		#go_next1 ,#go_next2 {
+			position: absolute;
+			right:0;
+			top:0;
+		}
+		#go_prev1 {
+			width:250px;
+			height:400px;
+		} 
+		
+		#go_next1 {
+			width:250px;
+			height:400px;
+		} 
+		#go_prev2 {
+			width:175px;
+			height:250px;
+		} 
+		#go_next2 {
+			width:175px;
+			height:250px;
+		} 
+		#left span ,#right span {
+			display: block;
+			position: absolute;
+			left:0;
+			right:0;
+			height:20px;
+			line-height: 20px;
+		}
+		#left span {
+			top:450px;
+		}
+		#right span {
+			top:300px;
+		}
+		#left p ,#right p {
+			position: absolute;
+			right: 0;
+			left:0;
+			height: 50px;
+			line-height: 50px;
+			text-align: center;
+		}
+		#left p {
+			top:400px;
+		}
+		#right p {
+			top:250px;
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload=function(){
+			var arrUrl1=['img/belle.jpg','img/city.jpg','img/flower.jpg','img/rouse.jpg','img/smail.jpg'];
+			var arrText1=['第一组第一张','第一组第二张','第一组第三张','第一组第四张','第一组第五张'];
+			var arrUrl2=['img/load.jpg','img/pencil.jpg','img/watch.jpg','img/water.jpg'];
+			var arrText2=['第二组第一张','第二组第二张','第二组第三张','第二组第四张'];
+			var num1=0;
+			var num2=0;
+
+			var oPrev=getById('prev');
+			var oNext=getById('next');
+			var oLeft=getById('left');
+			var oImg1=oLeft.getElementsByTagName('img')[0];
+			var oSpan1=oLeft.getElementsByTagName('span')[0];
+			var oP1=oLeft.getElementsByTagName('p')[0];
+			var oRight=getById('right');
+			var oImg2=oRight.getElementsByTagName('img')[0];
+			var oSpan2=oRight.getElementsByTagName('span')[0];
+			var oP2=oRight.getElementsByTagName('p')[0];
+			var go_prev1=getById('go_prev1');
+			var go_next1=getById('go_next1');
+			var go_prev2=getById('go_prev2');
+			var go_next2=getById('go_next2');
+			//初始化
+			function tab_pic(oImg,oSpan,oP,arrUrl,arrText,num){
+				oImg.src=arrUrl[num];
+				oSpan.innerHTML=num+1+'/'+arrUrl.length;
+				oP.innerHTML=arrText[num];
+			}
+			tab_pic(oImg1,oSpan1,oP1,arrUrl1,arrText1,num1);
+			tab_pic(oImg2,oSpan2,oP2,arrUrl2,arrText2,num2);
+
+			go_next1.onclick=Go_next1;
+			go_next2.onclick=Go_next2;
+			go_prev1.onclick=Go_prev1;
+			go_prev2.onclick=Go_prev2;
+			oPrev.onclick=function(){
+				Go_prev1();
+				Go_prev2();
+			}
+			oNext.onclick=function(){
+				Go_next1();
+				Go_next2();
+			}
+
+			
+			function Go_next1(){
+				num1++;
+				if(num1==arrUrl1.length){
+					num1=0;
+				}
+				tab_pic(oImg1,oSpan1,oP1,arrUrl1,arrText1,num1);
+			}
+			function Go_next2(){
+				num2++;
+				if(num2==arrUrl2.length){
+					num2=0;
+				}
+				tab_pic(oImg2,oSpan2,oP2,arrUrl2,arrText2,num2);
+			}
+			function Go_prev1(){
+				num1--;
+				if(num1==-1){
+					num1=arrUrl1.length-1;
+				}
+				tab_pic(oImg1,oSpan1,oP1,arrUrl1,arrText1,num1);
+			}
+			function Go_prev2(){
+				num2--;
+				if(num2==-1){
+					num2=arrUrl2.length-1;
+				}
+				tab_pic(oImg2,oSpan2,oP2,arrUrl2,arrText2,num2);
+			}
+			function getById(id){
+				return document.getElementById(id);
+			}
+		}
+	</script>
+</head>
+<body>
+	<div class="wrap">
+		<p class="btn"><input type="button" value="上一组" id="prev"><input type="button" value="下一组" id="next"></p>
+		<div>
+			<div id="left">
+				<img src="img/belle.jpg">
+				<div id="go_prev1"></div>
+				<div id="go_next1"></div>
+				<span></span>
+				<p></p>
+			</div>
+			<div id="right">
+				<img src="img/load.jpg">
+				<div id="go_prev2"></div>
+				<div id="go_next2"></div>
+				<span></span>
+				<p></p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
